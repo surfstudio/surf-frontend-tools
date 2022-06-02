@@ -14,6 +14,8 @@ import * as pageTools from "./pageTools";
 import * as request from "./request";
 import * as strings from "./strings";
 
+import * as hooks from "./hooks";
+
 import tableconf from "./tableconf";
 
 declare global {
@@ -38,6 +40,7 @@ const _ = {
   strings,
   tableconf,
   ...lodash,
+  ...hooks
 };
 
 export default _;
