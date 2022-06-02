@@ -9,6 +9,6 @@ const useUpdateEffect = (effect: EffectCallback, deps?: DependencyList) => {
         if (!isFirst) effect();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps);
-}
+};
 
 export default useUpdateEffect;

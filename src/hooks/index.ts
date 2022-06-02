@@ -9,6 +9,8 @@ import usePrevious from './use-previous';
 import useToggle from './use-toggle';
 import useUpdateEffect from './use-update-effect';
 import useWindowSize from './use-window-size';
+import useMediaQuery from './use-media-query';
+import useMediatedState from './use-mediated-state';
 
 export {
     useClickOutside,
@@ -22,4 +24,6 @@ export {
     useToggle,
     useUpdateEffect,
     useWindowSize,
+    useMediaQuery,
+    useMediatedState
 };

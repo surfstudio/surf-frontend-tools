@@ -10,6 +10,6 @@ const useIsFirstRender = () => {
     }
 
     return isFirst.current;
-}
+};
 
 export default useIsFirstRender;
