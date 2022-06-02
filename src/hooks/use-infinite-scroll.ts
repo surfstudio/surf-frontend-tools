@@ -1,28 +1,43 @@
-import { useState, useEffect } from 'react';
+import { RefCallback, useCallback, useEffect, useRef } from 'react';
 
-const useInfiniteScroll = (callback: () => void) => {
-    const [isFetching, setIsFetching] = useState(false);
+const defaultObserverConfig = {
+    rootMargin: '0px',
+    threshold: 0,
+};
 
-    const handleScroll = () => {
-        if (
-            window.innerHeight + document.documentElement.scrollTop !==
-            document.documentElement.offsetHeight
-        )
-            return;
-        setIsFetching(true);
-    };
+type TUseInfiniteScrollProps = {
+    onIntersect: () => void;
+    options?: IntersectionObserverInit;
+    isActive?: boolean;
+};
+
+const useInfiniteScroll = ({
+    onIntersect,
+    options = defaultObserverConfig,
+    isActive = true,
+}: TUseInfiniteScrollProps): RefCallback<Element> => {
+    const observer = useRef<IntersectionObserver | null>();
+
+    const callback = useCallback(
+        (entries: IntersectionObserverEntry[]) => {
+            if (entries.length > 0 && entries[0].isIntersecting && isActive) onIntersect();
+        },
+        [onIntersect, isActive]
+    );
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        return () => observer.current?.disconnect();
     }, []);
 
-    useEffect(() => {
-        if (!isFetching) return;
-        callback();
-    }, [isFetching, callback]);
-
-    return [isFetching, setIsFetching] as const;
+    return useCallback(
+        (node: Element) => {
+            if (!node) return;
+            observer.current?.disconnect();
+            observer.current = new IntersectionObserver(callback, options);
+            observer.current.observe(node);
+        },
+        [callback, options]
+    );
 };
 
 export default useInfiniteScroll;
