@@ -1,6 +1,3 @@
-import moment from "moment";
-import config from "./config/index";
-
 export const toOptions = <T>(obj: T) => {
   const res = [];
 
@@ -36,6 +33,3 @@ export const toOptionsExtract = <Arr extends Array<any>, KeyKey, ValueKey>(
     key: item[keyKey],
     title: item[valueKey],
   }));
-
-export const toUTC = <Date>(date: Date): string =>
-  moment.utc(moment(date).format()).format(config.ui.dates.def) + "Z";

@@ -2,7 +2,6 @@ import axios from "axios";
 import { asyncUpdate as _asyncUpdate, update as _update } from "reduxigen";
 
 import * as extract from "./extract";
-import config from "./config";
 
 interface Ifix {
   count: any;
@@ -60,17 +59,6 @@ export const fix = <Ifix>({ count, page, search, sort, ...params }) => {
   return res;
 };
 
-export const options = () => ({
-  validateStatus: null,
-  headers: !!localStorage.getItem(`${config.ui.prefix}_access_token`)
-    ? {
-        Authorization: `${localStorage.getItem(
-          `${config.ui.prefix}_access_token`
-        )}`,
-      }
-    : {},
-});
-
 export const abort = (name: string | number | symbol) =>
   cancels[name] && cancels[name]();
 
@@ -79,38 +67,6 @@ const cancel = (name: string | number | symbol) => ({
     cancels[name] = token;
   }),
 });
-
-export const get = <Params extends { id: any }, Uniq>(
-  endpoint: string,
-  params: Params,
-  uniq: Uniq
-) => {
-  const add = uniq || "",
-    url =
-      endpoint && endpoint.substr(0, 4) === "http"
-        ? endpoint
-        : (config.api.url + endpoint)
-            .replace("/api/api", "/api")
-            .replace("/v1/v1", "/v1")
-            .replace("/v1//v1", "/v1"); //,
-  //emptyParams = {};
-
-  cancels[endpoint + add] && cancels[endpoint + add]();
-
-  if (endpoint.includes("v1/file/download")) {
-    return axios.get(url, {
-      //emptyParams,
-      ...options(),
-      ...cancel(params.id),
-    });
-  } else {
-    return axios.get(url, {
-      params,
-      ...options(),
-      ...cancel(endpoint + add),
-    });
-  }
-};
 
 export const upload = (option: Option, prexhr: Prexhr) => {
   const xhr = prexhr || new XMLHttpRequest();
@@ -143,7 +99,7 @@ export const upload = (option: Option, prexhr: Prexhr) => {
 
   if (option.file instanceof Blob) {
     //Property 'name' does not exist on type 'Blob'.
-    //formData.append(option.filename, option.file, option.file.name);
+    formData.append(option.filename, option.file, option.file.name);
   } else {
     formData.append(option.filename, option.file);
   }

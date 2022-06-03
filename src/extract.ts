@@ -1,5 +1,3 @@
-import config from "./config";
-
 interface IError extends Error {
   status?: any;
   method?: any;
@@ -39,21 +37,4 @@ export const body = <Xhr extends { responseText?: any; response?: any }>(
   } catch (e) {
     return text;
   }
-};
-
-export const jwt = () => {
-  const token = localStorage.getItem(`${config.ui.prefix}_access_token`);
-
-  if (!token) return null;
-
-  const base64Url = token.split(".")[1],
-    base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"),
-    jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
-        .join("")
-    );
-
-  return JSON.parse(jsonPayload);
 };

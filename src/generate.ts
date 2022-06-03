@@ -1,11 +1,11 @@
 interface Res {
-  state?: (data: any, cb: any) => any;
-  byval?: (data: any, cb: any) => any;
-  bycheck?: (data: any, cb: any) => any;
-  toggle?: (data: any, cb: any) => any;
-  delayed?: (data: any, cb: any) => any;
-  deval?: (data: any, cb: any) => any;
-  decheck?: (data: any, cb: any) => any;
+  state?: (data: any, cb: () => any) => any;
+  byval?: (data: any, cb: () => any) => any;
+  bycheck?: (data: any, cb: () => any) => any;
+  toggle?: (data: any, cb: () => any) => any;
+  delayed?: (data: any, cb: () => any) => any;
+  deval?: (data: any, cb: () => any) => any;
+  decheck?: (data: any, cb: () => any) => any;
 }
 
 interface Cmp {
