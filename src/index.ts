@@ -13,6 +13,8 @@ import * as pageTools from "./pageTools";
 import * as request from "./request";
 import * as strings from "./strings";
 
+import * as hooks from "./hooks";
+
 import tableconf from "./tableconf";
 
 const _ = {
@@ -28,6 +30,7 @@ const _ = {
   request,
   strings,
   tableconf,
+  ...hooks
 };
 
 export default _;
